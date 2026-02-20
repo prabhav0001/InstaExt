@@ -6,6 +6,32 @@
 (function() {
   'use strict';
 
+  // ============ Blur Page Immediately ============
+  const blurOverlay = document.createElement('div');
+  blurOverlay.id = 'ext-blur-overlay';
+  blurOverlay.innerHTML = `
+    <style>
+      #ext-blur-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+      }
+    </style>
+    <div>⚙️ Processing... Please wait</div>
+  `;
+  document.documentElement.appendChild(blurOverlay);
+
   // ============ Configuration ============
   const CONFIG = {
     MAX_WAIT_TIME: 15000,
