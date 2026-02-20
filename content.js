@@ -56,7 +56,7 @@
         // Fill the input field
         inputField.focus();
         inputField.value = instaUrl;
-        
+
         // Trigger input events for React/Vue apps
         inputField.dispatchEvent(new Event('input', { bubbles: true }));
         inputField.dispatchEvent(new Event('change', { bubbles: true }));
@@ -84,12 +84,12 @@
         ];
 
         let submitButton = null;
-        
+
         // Custom contains selector since CSS doesn't support :contains
         const allButtons = document.querySelectorAll('button, input[type="submit"]');
         for (const btn of allButtons) {
           const text = btn.textContent.toLowerCase() || btn.value?.toLowerCase() || '';
-          if ((text.includes('get') || text.includes('now') || text.includes('submit') || text.includes('start')) 
+          if ((text.includes('get') || text.includes('now') || text.includes('submit') || text.includes('start'))
               && btn.offsetParent !== null && !btn.disabled) {
             submitButton = btn;
             break;
@@ -119,7 +119,7 @@
 
         // Click the button
         submitButton.click();
-        
+
         // Wait for the process to complete (check for success message or loading)
         setTimeout(() => {
           resolve({ success: true });

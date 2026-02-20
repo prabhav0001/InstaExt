@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load saved state
   const savedState = await chrome.storage.local.get(['isRunning', 'instaUrl', 'currentRound', 'totalRounds']);
-  
+
   if (savedState.isRunning) {
     instaUrlInput.value = savedState.instaUrl || '';
     repeatCountInput.value = savedState.totalRounds || 5;
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (repeatCount < 1 || repeatCount > 50) {
-      showError('❌ Repeat count 1 से 50 के बीच होना चाहिए');
+      showError('❌ Repeat count must be between 1 and 50');
       return;
     }
 

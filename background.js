@@ -25,17 +25,17 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
 async function startProcess(instaUrl, repeatCount) {
   console.log('Starting process:', instaUrl, repeatCount);
-  
+
   // Clear any existing alarms
   await chrome.alarms.clearAll();
-  
+
   // Start first round immediately
   executeRound(instaUrl, 1, repeatCount);
 }
 
 async function executeRound(instaUrl, roundNumber, totalRounds) {
   console.log(`Executing round ${roundNumber}/${totalRounds}`);
-  
+
   try {
     // Update storage
     await chrome.storage.local.set({
@@ -60,7 +60,7 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
 
     // Wait for page to load, then execute content script
     await waitForTabLoad(currentTabId);
-    
+
     // Small delay to ensure page is fully ready
     await sleep(3000);
 
@@ -73,7 +73,7 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
     if (response && response.success) {
       // Round completed successfully
       await chrome.storage.local.set({ currentRound: roundNumber });
-      
+
       // Broadcast progress
       broadcastMessage({
         action: 'updateProgress',
@@ -84,7 +84,7 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
       if (roundNumber < totalRounds) {
         // Schedule next round with random delay (5-10 minutes)
         const delayMinutes = Math.floor(Math.random() * 6) + 5; // 5-10 minutes
-        
+
         broadcastMessage({
           action: 'updateProgress',
           currentRound: roundNumber,
@@ -94,13 +94,13 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
 
         // Set alarm for next round
         chrome.alarms.create('nextRound', { delayInMinutes: delayMinutes });
-        
+
         console.log(`Next round in ${delayMinutes} minutes`);
       } else {
         // All rounds completed
         await chrome.storage.local.set({ isRunning: false });
         broadcastMessage({ action: 'processComplete' });
-        
+
         // Close the tab
         if (currentTabId) {
           try {
@@ -143,13 +143,13 @@ function sleep(ms) {
 
 async function stopProcess() {
   console.log('Stopping process');
-  
+
   // Clear all alarms
   await chrome.alarms.clearAll();
-  
+
   // Update storage
   await chrome.storage.local.set({ isRunning: false });
-  
+
   // Close the tab if it exists
   if (currentTabId) {
     try {
