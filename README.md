@@ -62,12 +62,12 @@ NewExt/
 
 ### File Responsibilities
 
-| File | Purpose |
-|------|---------|
+| File            | Purpose                                        |
+| --------------- | ---------------------------------------------- |
 | `background.js` | Timer management, tab control, round execution |
-| `content.js` | DOM manipulation on zefame.com |
-| `popup.js` | UI interactions, countdown display |
-| `popup.css` | All styling with CSS variables |
+| `content.js`    | DOM manipulation on zefame.com                 |
+| `popup.js`      | UI interactions, countdown display             |
+| `popup.css`     | All styling with CSS variables                 |
 
 ### Key Constants
 

@@ -4,422 +4,451 @@
 
 /* ---- CSS Variables ---- */
 :root {
-  /* Colors */
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #0d0d0d;
-  --bg-tertiary: #1a1a1a;
-  --bg-input: #111;
+    /* Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #0d0d0d;
+    --bg-tertiary: #1a1a1a;
+    --bg-input: #111;
 
-  --text-primary: #ffffff;
-  --text-secondary: #e0e0e0;
-  --text-muted: #888;
-  --text-dark: #666;
-  --text-darker: #555;
-  --text-darkest: #444;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #888;
+    --text-dark: #666;
+    --text-darker: #555;
+    --text-darkest: #444;
 
-  --border-color: #2d2d2d;
-  --border-light: #333;
-  --border-dark: #222;
+    --border-color: #2d2d2d;
+    --border-light: #333;
+    --border-dark: #222;
 
-  /* Instagram Gradient */
-  --instagram-blue: #405DE6;
-  --instagram-purple: #833AB4;
-  --instagram-pink: #C13584;
-  --instagram-red: #E1306C;
-  --instagram-orange: #F77737;
+    /* Instagram Gradient */
+    --instagram-blue: #405de6;
+    --instagram-purple: #833ab4;
+    --instagram-pink: #c13584;
+    --instagram-red: #e1306c;
+    --instagram-orange: #f77737;
 
-  /* Status Colors */
-  --success: #4ade80;
-  --success-bg: rgba(40, 167, 69, 0.15);
-  --success-border: rgba(40, 167, 69, 0.3);
+    /* Status Colors */
+    --success: #4ade80;
+    --success-bg: rgba(40, 167, 69, 0.15);
+    --success-border: rgba(40, 167, 69, 0.3);
 
-  --error: #f87171;
-  --error-bg: rgba(220, 53, 69, 0.15);
-  --error-border: rgba(220, 53, 69, 0.3);
+    --error: #f87171;
+    --error-bg: rgba(220, 53, 69, 0.15);
+    --error-border: rgba(220, 53, 69, 0.3);
 
-  --warning: #ffc107;
-  --warning-text: #ffca2c;
-  --warning-bg: rgba(255, 193, 7, 0.1);
-  --warning-border: rgba(255, 193, 7, 0.3);
+    --warning: #ffc107;
+    --warning-text: #ffca2c;
+    --warning-bg: rgba(255, 193, 7, 0.1);
+    --warning-border: rgba(255, 193, 7, 0.3);
 
-  /* Sizing */
-  --popup-width: 380px;
-  --border-radius: 10px;
-  --border-radius-lg: 12px;
-  --border-radius-xl: 16px;
+    /* Sizing */
+    --popup-width: 380px;
+    --border-radius: 10px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
 
-  /* Transitions */
-  --transition-fast: 0.3s ease;
-  --transition-medium: 0.5s ease;
+    /* Transitions */
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
 }
 
 /* ---- Reset ---- */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ---- Base ---- */
 body {
-  width: var(--popup-width);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--bg-primary);
-  padding: 0;
+    width: var(--popup-width);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    padding: 0;
 }
 
 /* ---- Header ---- */
 .header {
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--bg-tertiary);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--bg-tertiary);
 }
 
 .logo-wrapper {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--border-radius);
-  background: linear-gradient(135deg, var(--instagram-blue) 0%, var(--instagram-purple) 50%, var(--instagram-red) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+        135deg,
+        var(--instagram-blue) 0%,
+        var(--instagram-purple) 50%,
+        var(--instagram-red) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .logo-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  background: var(--bg-primary);
-  border-radius: 8px;
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-primary);
+    border-radius: 8px;
 }
 
 .logo-icon {
-  position: relative;
-  z-index: 1;
-  width: 22px;
-  height: 22px;
+    position: relative;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
 }
 
 .logo-icon svg {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .header-text {
-  flex: 1;
+    flex: 1;
 }
 
 h1 {
-  color: var(--text-primary);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 2px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
 }
 
 .header-subtitle {
-  color: var(--text-dark);
-  font-size: 11px;
-  font-weight: 400;
+    color: var(--text-dark);
+    font-size: 11px;
+    font-weight: 400;
 }
 
 .header-badge {
-  background: linear-gradient(135deg, var(--instagram-purple) 0%, var(--instagram-red) 100%);
-  color: white;
-  font-size: 9px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    background: linear-gradient(
+        135deg,
+        var(--instagram-purple) 0%,
+        var(--instagram-red) 100%
+    );
+    color: white;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* ---- Container ---- */
 .container {
-  background: var(--bg-primary);
-  padding: 16px;
+    background: var(--bg-primary);
+    padding: 16px;
 }
 
 /* ---- Warning Box ---- */
 .warning-box {
-  background: var(--warning-bg);
-  border: 1px solid var(--warning-border);
-  border-radius: var(--border-radius);
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  font-size: 11px;
-  color: var(--warning);
-  backdrop-filter: blur(10px);
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: var(--border-radius);
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--warning);
+    backdrop-filter: blur(10px);
 }
 
 .warning-box .warning-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--warning-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--warning-text);
 }
 
 .warning-box ul {
-  list-style: none;
-  padding-left: 5px;
+    list-style: none;
+    padding-left: 5px;
 }
 
 .warning-box li {
-  padding: 3px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 193, 7, 0.85);
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 193, 7, 0.85);
 }
 
 .warning-box li::before {
-  content: '›';
-  color: var(--warning);
-  font-weight: bold;
+    content: "›";
+    color: var(--warning);
+    font-weight: bold;
 }
 
 .warning-box.hidden {
-  display: none;
+    display: none;
 }
 
 /* ---- Form Elements ---- */
 .input-group {
-  margin-bottom: 14px;
+    margin-bottom: 14px;
 }
 
 label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  font-size: 13px;
-  letter-spacing: 0.3px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 13px;
+    letter-spacing: 0.3px;
 }
 
 input[type="text"],
 input[type="number"] {
-  width: 100%;
-  padding: 12px 14px;
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
-  font-size: 13px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  transition: all var(--transition-fast);
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 13px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
 }
 
 input[type="text"]::placeholder {
-  color: var(--text-darker);
+    color: var(--text-darker);
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus {
-  outline: none;
-  border-color: var(--instagram-pink);
-  box-shadow: 0 0 0 3px rgba(193, 53, 132, 0.2);
-  background: var(--bg-input);
+    outline: none;
+    border-color: var(--instagram-pink);
+    box-shadow: 0 0 0 3px rgba(193, 53, 132, 0.2);
+    background: var(--bg-input);
 }
 
 input[type="text"]:disabled,
 input[type="number"]:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .gap-info {
-  font-size: 11px;
-  color: var(--text-dark);
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+    font-size: 11px;
+    color: var(--text-dark);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 /* ---- Buttons ---- */
 .btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--instagram-blue) 0%, var(--instagram-purple) 50%, var(--instagram-red) 100%);
-  color: white;
-  position: relative;
-  overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        var(--instagram-blue) 0%,
+        var(--instagram-purple) 50%,
+        var(--instagram-red) 100%
+    );
+    color: white;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left var(--transition-medium);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left var(--transition-medium);
 }
 
 .btn-primary:hover::before {
-  left: 100%;
+    left: 100%;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(193, 53, 132, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(193, 53, 132, 0.4);
 }
 
 .btn-primary:disabled {
-  background: var(--border-color);
-  color: var(--text-dark);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+    background: var(--border-color);
+    color: var(--text-dark);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .btn-primary:disabled::before {
-  display: none;
+    display: none;
 }
 
 .btn-stop {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  color: white;
-  margin-top: 10px;
-  display: none;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    margin-top: 10px;
+    display: none;
 }
 
 .btn-stop:hover {
-  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
 }
 
 /* ---- Status ---- */
 .status {
-  margin-top: 15px;
-  padding: 12px 15px;
-  border-radius: var(--border-radius-lg);
-  font-size: 13px;
-  text-align: center;
-  display: none;
-  font-weight: 500;
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: var(--border-radius-lg);
+    font-size: 13px;
+    text-align: center;
+    display: none;
+    font-weight: 500;
 }
 
 .status.running {
-  display: block;
-  background: var(--success-bg);
-  color: var(--success);
-  border: 1px solid var(--success-border);
+    display: block;
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
 }
 
 .status.error {
-  display: block;
-  background: var(--error-bg);
-  color: var(--error);
-  border: 1px solid var(--error-border);
+    display: block;
+    background: var(--error-bg);
+    color: var(--error);
+    border: 1px solid var(--error-border);
 }
 
 .progress-info {
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
-  text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
 }
 
 /* ---- Timer Box ---- */
 .timer-box {
-  margin-top: 18px;
-  padding: 20px;
-  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-  border-radius: var(--border-radius-xl);
-  text-align: center;
-  display: none;
-  border: 1px solid var(--border-light);
-  position: relative;
-  overflow: hidden;
+    margin-top: 18px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: var(--border-radius-xl);
+    text-align: center;
+    display: none;
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
 }
 
 .timer-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--instagram-blue), var(--instagram-purple), var(--instagram-red), var(--instagram-orange));
-  animation: gradient-move 2s linear infinite;
-  background-size: 200% 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--instagram-blue),
+        var(--instagram-purple),
+        var(--instagram-red),
+        var(--instagram-orange)
+    );
+    animation: gradient-move 2s linear infinite;
+    background-size: 200% 100%;
 }
 
 @keyframes gradient-move {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 0%; }
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
 }
 
 .timer-box.visible {
-  display: block;
+    display: block;
 }
 
 .timer-label {
-  color: var(--text-muted);
-  font-size: 11px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .timer-value {
-  color: var(--text-primary);
-  font-size: 36px;
-  font-weight: 700;
-  font-family: 'SF Mono', 'Courier New', monospace;
-  text-shadow: 0 0 20px rgba(193, 53, 132, 0.5);
+    color: var(--text-primary);
+    font-size: 36px;
+    font-weight: 700;
+    font-family: "SF Mono", "Courier New", monospace;
+    text-shadow: 0 0 20px rgba(193, 53, 132, 0.5);
 }
 
 /* ---- Footer ---- */
 .footer {
-  background: #111;
-  padding: 12px;
-  text-align: center;
-  border-top: 1px solid var(--border-dark);
+    background: #111;
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid var(--border-dark);
 }
 
 .footer-text {
-  color: var(--text-darkest);
-  font-size: 10px;
-  letter-spacing: 0.5px;
+    color: var(--text-darkest);
+    font-size: 10px;
+    letter-spacing: 0.5px;
 }
 
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
+    background: var(--bg-tertiary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 3px;
+    background: var(--border-light);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-darkest);
+    background: var(--text-darkest);
 }

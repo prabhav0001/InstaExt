@@ -130,7 +130,7 @@ async function closeCurrentTab() {
   if (currentTabId) {
     try {
       await chrome.tabs.remove(currentTabId);
-    } catch {}
+    } catch { }
     currentTabId = null;
     // Clear from storage too
     await chrome.storage.local.remove('currentTabId');
