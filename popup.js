@@ -5,14 +5,62 @@ document.addEventListener('DOMContentLoaded', async () => {
   const stopBtn = document.getElementById('stopBtn');
   const statusDiv = document.getElementById('status');
   const progressInfo = document.getElementById('progressInfo');
+  const timerBox = document.getElementById('timerBox');
+  const timerValue = document.getElementById('timerValue');
+
+  let countdownInterval = null;
 
   // Load saved state
-  const savedState = await chrome.storage.local.get(['isRunning', 'instaUrl', 'currentRound', 'totalRounds']);
+  const savedState = await chrome.storage.local.get(['isRunning', 'instaUrl', 'currentRound', 'totalRounds', 'nextRunTime']);
 
   if (savedState.isRunning) {
     instaUrlInput.value = savedState.instaUrl || '';
     repeatCountInput.value = savedState.totalRounds || 5;
     updateUI(true, savedState.currentRound, savedState.totalRounds);
+
+    // Start countdown if there's a next run time
+    if (savedState.nextRunTime && savedState.currentRound < savedState.totalRounds) {
+      startCountdown(savedState.nextRunTime);
+    }
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  function startCountdown(nextRunTime) {
+    // Clear any existing countdown
+    if (countdownInterval) {
+      clearInterval(countdownInterval);
+    }
+
+    timerBox.classList.add('visible');
+
+    countdownInterval = setInterval(() => {
+      const now = Date.now();
+      const remaining = Math.max(0, Math.floor((nextRunTime - now) / 1000));
+
+      if (remaining <= 0) {
+        timerValue.textContent = 'Starting...';
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+        setTimeout(() => {
+          timerBox.classList.remove('visible');
+        }, 3000);
+      } else {
+        timerValue.textContent = formatTime(remaining);
+      }
+    }, 1000);
+  }
+
+  function stopCountdown() {
+    if (countdownInterval) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+    }
+    timerBox.classList.remove('visible');
   }
 
   function updateUI(isRunning, currentRound = 0, totalRounds = 0) {
@@ -22,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       instaUrlInput.disabled = true;
       repeatCountInput.disabled = true;
       statusDiv.className = 'status running';
-      statusDiv.textContent = '✅ Process चल रहा है...';
+      statusDiv.textContent = '✅ Process is running...';
       progressInfo.textContent = `Round ${currentRound}/${totalRounds} complete`;
     } else {
       startBtn.disabled = false;
@@ -32,6 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       statusDiv.className = 'status';
       statusDiv.style.display = 'none';
       progressInfo.textContent = '';
+      stopCountdown();
     }
   }
 
@@ -95,15 +144,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'updateProgress') {
       progressInfo.textContent = `Round ${message.currentRound}/${message.totalRounds} complete`;
-      if (message.nextIn) {
-        progressInfo.textContent += ` | Next in ${message.nextIn}`;
+
+      // Start countdown timer if nextRunTime is provided
+      if (message.nextRunTime) {
+        startCountdown(message.nextRunTime);
       }
     } else if (message.action === 'processComplete') {
       updateUI(false);
+      stopCountdown();
       statusDiv.className = 'status running';
       statusDiv.textContent = '🎉 All rounds completed!';
     } else if (message.action === 'processError') {
       updateUI(false);
+      stopCountdown();
       showError('❌ ' + message.error);
     }
   });

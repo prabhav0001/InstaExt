@@ -148,6 +148,32 @@
       color: #666;
       text-align: center;
     }
+
+    .timer-box {
+      margin-top: 15px;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .timer-box.visible {
+      display: block;
+    }
+
+    .timer-label {
+      color: rgba(255,255,255,0.8);
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .timer-value {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+    }
   </style>
 </head>
 <body>
@@ -177,6 +203,11 @@
 
     <div class="status" id="status"></div>
     <div class="progress-info" id="progressInfo"></div>
+
+    <div class="timer-box" id="timerBox">
+      <div class="timer-label">Next round starts in</div>
+      <div class="timer-value" id="timerValue">00:00</div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

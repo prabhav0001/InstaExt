@@ -84,12 +84,16 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
       if (roundNumber < totalRounds) {
         // Schedule next round with random delay (5-10 minutes)
         const delayMinutes = Math.floor(Math.random() * 6) + 5; // 5-10 minutes
+        const nextRunTime = Date.now() + (delayMinutes * 60 * 1000);
+
+        // Save next run time to storage
+        await chrome.storage.local.set({ nextRunTime: nextRunTime });
 
         broadcastMessage({
           action: 'updateProgress',
           currentRound: roundNumber,
           totalRounds: totalRounds,
-          nextIn: `${delayMinutes} minutes`
+          nextRunTime: nextRunTime
         });
 
         // Set alarm for next round
