@@ -193,10 +193,20 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
 
         chrome.alarms.create('nextRound', { delayInMinutes: delayMinutes });
       } else {
-        // All rounds completed
-        await chrome.storage.local.set({ isRunning: false });
-        broadcastMessage({ action: 'processComplete' });
-        await closeCurrentTab();
+        // Last round - wait 1.5 minutes via alarm for the window to process successfully
+        const waitTime = 90 * 1000;
+        const nextRunTime = Date.now() + waitTime;
+
+        await chrome.storage.local.set({ nextRunTime: nextRunTime });
+
+        broadcastMessage({
+          action: 'updateProgress',
+          currentRound: roundNumber,
+          totalRounds: totalRounds,
+          nextRunTime: nextRunTime
+        });
+
+        chrome.alarms.create('finalComplete', { delayInMinutes: 1.5 });
       }
     } else {
       throw new Error(response?.error || 'Unknown error during round execution');
@@ -246,6 +256,13 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     if (state.isRunning && state.currentRound < state.totalRounds) {
       executeRound(state.instaUrl, state.currentRound + 1, state.totalRounds);
     }
+  }
+
+  if (alarm.name === 'finalComplete') {
+    // All rounds completed after final wait
+    await chrome.storage.local.set({ isRunning: false });
+    broadcastMessage({ action: 'processComplete' });
+    await closeCurrentTab();
   }
 });
 
