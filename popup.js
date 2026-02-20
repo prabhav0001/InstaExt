@@ -7,22 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const progressInfo = document.getElementById('progressInfo');
   const timerBox = document.getElementById('timerBox');
   const timerValue = document.getElementById('timerValue');
+  const warningBox = document.querySelector('.warning-box');
 
   let countdownInterval = null;
-
-  // Load saved state
-  const savedState = await chrome.storage.local.get(['isRunning', 'instaUrl', 'currentRound', 'totalRounds', 'nextRunTime']);
-
-  if (savedState.isRunning) {
-    instaUrlInput.value = savedState.instaUrl || '';
-    repeatCountInput.value = savedState.totalRounds || 5;
-    updateUI(true, savedState.currentRound, savedState.totalRounds);
-
-    // Start countdown if there's a next run time
-    if (savedState.nextRunTime && savedState.currentRound < savedState.totalRounds) {
-      startCountdown(savedState.nextRunTime);
-    }
-  }
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -72,6 +59,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       statusDiv.className = 'status running';
       statusDiv.textContent = '✅ Process is running...';
       progressInfo.textContent = `Round ${currentRound}/${totalRounds} complete`;
+      // Hide warning box when running to save space
+      if (warningBox) warningBox.classList.add('hidden');
     } else {
       startBtn.disabled = false;
       stopBtn.style.display = 'none';
@@ -81,6 +70,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       statusDiv.style.display = 'none';
       progressInfo.textContent = '';
       stopCountdown();
+      // Show warning box when not running
+      if (warningBox) warningBox.classList.remove('hidden');
     }
   }
 
@@ -160,4 +151,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       showError('❌ ' + message.error);
     }
   });
+
+  // Load saved state (at the end after all functions are defined)
+  const savedState = await chrome.storage.local.get(['isRunning', 'instaUrl', 'currentRound', 'totalRounds', 'nextRunTime']);
+
+  if (savedState.isRunning) {
+    instaUrlInput.value = savedState.instaUrl || '';
+    repeatCountInput.value = savedState.totalRounds || 5;
+    updateUI(true, savedState.currentRound, savedState.totalRounds);
+
+    // Start countdown if there's a next run time
+    if (savedState.nextRunTime && savedState.currentRound < savedState.totalRounds) {
+      startCountdown(savedState.nextRunTime);
+    }
+  }
 });
