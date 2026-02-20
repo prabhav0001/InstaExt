@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Views Booster</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 350px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #e1306c;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .warning-box {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #856404;
+    }
+
+    .warning-box strong {
+      color: #d63384;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 13px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #e1306c;
+    }
+
+    .gap-info {
+      font-size: 11px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #e1306c 0%, #c13584 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(225, 48, 108, 0.4);
+    }
+
+    .btn-primary:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-stop {
+      background: #dc3545;
+      color: white;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .btn-stop:hover {
+      background: #c82333;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .status.running {
+      display: block;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      display: block;
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .progress-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📸 Instagram Views Booster</h1>
+    
+    <div class="warning-box">
+      <strong>⚠️ Important Note:</strong><br>
+      • आपका Instagram Account <strong>PUBLIC</strong> होना चाहिए<br>
+      • Reel/Post की URL सही होनी चाहिए<br>
+      • Process के दौरान tab को बंद न करें
+    </div>
+
+    <div class="input-group">
+      <label for="instaUrl">Instagram Reel/Post URL:</label>
+      <input type="text" id="instaUrl" placeholder="https://www.instagram.com/reel/..." />
+    </div>
+
+    <div class="input-group">
+      <label for="repeatCount">कितनी बार repeat करना है?</label>
+      <input type="number" id="repeatCount" min="1" max="50" value="5" />
+      <div class="gap-info">💡 हर repeat के बीच 5-10 minute का gap रहेगा</div>
+    </div>
+
+    <button class="btn btn-primary" id="startBtn">🚀 Start Process</button>
+    <button class="btn btn-stop" id="stopBtn">⏹️ Stop Process</button>
+
+    <div class="status" id="status"></div>
+    <div class="progress-info" id="progressInfo"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
