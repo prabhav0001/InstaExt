@@ -16,6 +16,21 @@ const CONFIG = {
 // ============ State ============
 let currentTabId = null;
 
+// Load saved tabId on startup
+chrome.storage.local.get(['currentTabId'], (result) => {
+  if (result.currentTabId) {
+    currentTabId = result.currentTabId;
+  }
+});
+
+// Listen for tab close - clear currentTabId if our tab is closed
+chrome.tabs.onRemoved.addListener((tabId) => {
+  if (tabId === currentTabId) {
+    currentTabId = null;
+    chrome.storage.local.remove('currentTabId');
+  }
+});
+
 // ============ Utility Functions ============
 
 /**
@@ -65,24 +80,46 @@ function broadcastMessage(message) {
  * Open or reuse tab for Zefame (in background - not active)
  */
 async function openZefameTab() {
+  // Try to reuse existing tab
   if (currentTabId) {
     try {
-      await chrome.tabs.get(currentTabId);
-      await chrome.tabs.update(currentTabId, {
-        url: CONFIG.ZEFAME_URL,
-        active: false  // Keep in background
-      });
-      return currentTabId;
+      const existingTab = await chrome.tabs.get(currentTabId);
+      if (existingTab) {
+        // Tab exists, navigate to zefame URL (this will reload the page)
+        await chrome.tabs.update(currentTabId, {
+          url: CONFIG.ZEFAME_URL,
+          active: false
+        });
+        return currentTabId;
+      }
     } catch {
-      // Tab doesn't exist, create new
+      // Tab doesn't exist anymore
+      currentTabId = null;
+      await chrome.storage.local.remove('currentTabId');
     }
   }
 
+  // Check if zefame tab already exists anywhere (user might have opened it)
+  const allTabs = await chrome.tabs.query({ url: '*://zefame.com/*' });
+  if (allTabs.length > 0) {
+    // Reuse existing zefame tab
+    currentTabId = allTabs[0].id;
+    await chrome.storage.local.set({ currentTabId: currentTabId });
+    await chrome.tabs.update(currentTabId, {
+      url: CONFIG.ZEFAME_URL,
+      active: false
+    });
+    return currentTabId;
+  }
+
+  // Create new tab only if no existing tab found
   const tab = await chrome.tabs.create({
     url: CONFIG.ZEFAME_URL,
-    active: false  // Open in background
+    active: false
   });
   currentTabId = tab.id;
+  await chrome.storage.local.set({ currentTabId: tab.id });
+
   return currentTabId;
 }
 
@@ -95,6 +132,8 @@ async function closeCurrentTab() {
       await chrome.tabs.remove(currentTabId);
     } catch {}
     currentTabId = null;
+    // Clear from storage too
+    await chrome.storage.local.remove('currentTabId');
   }
 }
 
