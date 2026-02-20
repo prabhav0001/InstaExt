@@ -7,9 +7,8 @@
 const CONFIG = {
   ZEFAME_URL: 'https://zefame.com/uk/free-instagram-views',
   DELAY: {
-    MIN_MINUTES: 6,
-    MAX_MINUTES: 7,
-    PAGE_LOAD_WAIT: 3000
+    FIXED_MINUTES: 7,
+    PAGE_LOAD_WAIT: 2000
   }
 };
 
@@ -38,13 +37,6 @@ chrome.tabs.onRemoved.addListener((tabId) => {
  */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
- * Get random delay between min and max minutes
- */
-function getRandomDelay(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -187,10 +179,7 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
 
       if (roundNumber < totalRounds) {
         // Schedule next round
-        const delayMinutes = getRandomDelay(
-          CONFIG.DELAY.MIN_MINUTES,
-          CONFIG.DELAY.MAX_MINUTES
-        );
+        const delayMinutes = CONFIG.DELAY.FIXED_MINUTES;
         const nextRunTime = Date.now() + (delayMinutes * 60 * 1000);
 
         await chrome.storage.local.set({ nextRunTime: nextRunTime });

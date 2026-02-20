@@ -41,7 +41,7 @@ NewExt/
 
 - 🎨 **Dark Theme UI** - Modern, sleek design
 - ⏱️ **Live Countdown Timer** - Shows time until next round
-- 🔄 **Automated Rounds** - 6-7 minute random gaps
+- 🔄 **Automated Rounds** - Fixed 7 minute gap between rounds
 - 💾 **State Persistence** - Survives popup close
 - ⚡ **Pro Architecture** - Clean, modular code
 
@@ -73,8 +73,7 @@ NewExt/
 
 ```javascript
 DELAY: {
-  MIN_MINUTES: 5,    // Minimum wait time
-  MAX_MINUTES: 6     // Maximum wait time
+    FIXED_MINUTES: 7; // Fixed wait time between rounds
 }
 ```
 
