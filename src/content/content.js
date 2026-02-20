@@ -11,26 +11,11 @@
     MAX_WAIT_TIME: 15000,
     RETRY_INTERVAL: 500,
     BUTTON_CLICK_DELAY: 1000,
-    SUCCESS_WAIT: 3000
+    SUCCESS_WAIT: 3000,
+    // Direct selectors for zefame.com
+    INPUT_SELECTOR: '#instagram-link',
+    BUTTON_SELECTOR: '#submit-btn'
   };
-
-  // Input field selectors (in priority order)
-  const INPUT_SELECTORS = [
-    'input[placeholder*="Instagram"]',
-    'input[placeholder*="instagram"]',
-    'input[placeholder*="Paste"]',
-    'input[placeholder*="paste"]',
-    'input[placeholder*="link"]',
-    'input[placeholder*="Link"]',
-    'input[type="text"]',
-    'input[type="url"]',
-    '.form-control',
-    '#link',
-    'input[name="link"]'
-  ];
-
-  // Button keywords to search for
-  const BUTTON_KEYWORDS = ['get', 'now', 'submit', 'start'];
 
   // ============ Helper Functions ============
 
@@ -44,53 +29,19 @@
   }
 
   /**
-   * Find visible input field
+   * Find input field
    */
   function findInputField() {
-    for (const selector of INPUT_SELECTORS) {
-      const elements = document.querySelectorAll(selector);
-      for (const el of elements) {
-        if (isElementInteractable(el)) {
-          return el;
-        }
-      }
-    }
-    return null;
+    const input = document.querySelector(CONFIG.INPUT_SELECTOR);
+    return isElementInteractable(input) ? input : null;
   }
 
   /**
    * Find submit button
    */
   function findSubmitButton() {
-    // First, try to find by text content
-    const allButtons = document.querySelectorAll('button, input[type="submit"]');
-
-    for (const btn of allButtons) {
-      const text = (btn.textContent || btn.value || '').toLowerCase();
-      const hasKeyword = BUTTON_KEYWORDS.some(keyword => text.includes(keyword));
-
-      if (hasKeyword && isElementInteractable(btn)) {
-        return btn;
-      }
-    }
-
-    // Fallback to common selectors
-    const fallbackSelectors = [
-      'button[type="submit"]',
-      'input[type="submit"]',
-      '.btn-primary',
-      '.btn-success',
-      'button.btn'
-    ];
-
-    for (const selector of fallbackSelectors) {
-      const btn = document.querySelector(selector);
-      if (isElementInteractable(btn)) {
-        return btn;
-      }
-    }
-
-    return null;
+    const btn = document.querySelector(CONFIG.BUTTON_SELECTOR);
+    return isElementInteractable(btn) ? btn : null;
   }
 
   /**
