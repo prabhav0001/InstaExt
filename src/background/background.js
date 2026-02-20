@@ -1,0 +1,238 @@
+/**
+ * Background Service Worker
+ * Handles timing, tab management, and round execution
+ */
+
+// ============ Configuration ============
+const CONFIG = {
+  ZEFAME_URL: 'https://zefame.com/en/free-instagram-views',
+  DELAY: {
+    MIN_MINUTES: 5,
+    MAX_MINUTES: 6,
+    PAGE_LOAD_WAIT: 3000
+  }
+};
+
+// ============ State ============
+let currentTabId = null;
+
+// ============ Utility Functions ============
+
+/**
+ * Sleep for specified milliseconds
+ */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Get random delay between min and max minutes
+ */
+function getRandomDelay(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Wait for tab to finish loading
+ */
+function waitForTabLoad(tabId) {
+  return new Promise((resolve) => {
+    const checkTab = () => {
+      chrome.tabs.get(tabId, (tab) => {
+        if (tab && tab.status === 'complete') {
+          resolve();
+        } else {
+          setTimeout(checkTab, 500);
+        }
+      });
+    };
+    checkTab();
+  });
+}
+
+/**
+ * Broadcast message to popup (ignore errors if closed)
+ */
+function broadcastMessage(message) {
+  chrome.runtime.sendMessage(message).catch(() => {
+    // Popup might be closed, ignore error
+  });
+}
+
+// ============ Tab Management ============
+
+/**
+ * Open or reuse tab for Zefame
+ */
+async function openZefameTab() {
+  if (currentTabId) {
+    try {
+      await chrome.tabs.get(currentTabId);
+      await chrome.tabs.update(currentTabId, {
+        url: CONFIG.ZEFAME_URL,
+        active: true
+      });
+      return currentTabId;
+    } catch {
+      // Tab doesn't exist, create new
+    }
+  }
+
+  const tab = await chrome.tabs.create({
+    url: CONFIG.ZEFAME_URL,
+    active: true
+  });
+  currentTabId = tab.id;
+  return currentTabId;
+}
+
+/**
+ * Close current tab
+ */
+async function closeCurrentTab() {
+  if (currentTabId) {
+    try {
+      await chrome.tabs.remove(currentTabId);
+    } catch {}
+    currentTabId = null;
+  }
+}
+
+// ============ Process Management ============
+
+/**
+ * Start the automation process
+ */
+async function startProcess(instaUrl, repeatCount) {
+  console.log('Starting process:', instaUrl, repeatCount);
+
+  // Clear any existing alarms
+  await chrome.alarms.clearAll();
+
+  // Start first round immediately
+  executeRound(instaUrl, 1, repeatCount);
+}
+
+/**
+ * Execute a single round
+ */
+async function executeRound(instaUrl, roundNumber, totalRounds) {
+  console.log(`Executing round ${roundNumber}/${totalRounds}`);
+
+  try {
+    // Update storage
+    await chrome.storage.local.set({
+      currentRound: roundNumber - 1,
+      isRunning: true
+    });
+
+    // Open Zefame tab
+    const tabId = await openZefameTab();
+
+    // Wait for page to load
+    await waitForTabLoad(tabId);
+    await sleep(CONFIG.DELAY.PAGE_LOAD_WAIT);
+
+    // Send message to content script
+    const response = await chrome.tabs.sendMessage(tabId, {
+      action: 'fillAndSubmit',
+      instaUrl: instaUrl
+    });
+
+    if (response && response.success) {
+      // Round completed successfully
+      await chrome.storage.local.set({ currentRound: roundNumber });
+
+      // Broadcast progress
+      broadcastMessage({
+        action: 'updateProgress',
+        currentRound: roundNumber,
+        totalRounds: totalRounds
+      });
+
+      if (roundNumber < totalRounds) {
+        // Schedule next round
+        const delayMinutes = getRandomDelay(
+          CONFIG.DELAY.MIN_MINUTES,
+          CONFIG.DELAY.MAX_MINUTES
+        );
+        const nextRunTime = Date.now() + (delayMinutes * 60 * 1000);
+
+        await chrome.storage.local.set({ nextRunTime: nextRunTime });
+
+        broadcastMessage({
+          action: 'updateProgress',
+          currentRound: roundNumber,
+          totalRounds: totalRounds,
+          nextRunTime: nextRunTime
+        });
+
+        chrome.alarms.create('nextRound', { delayInMinutes: delayMinutes });
+        console.log(`Next round in ${delayMinutes} minutes`);
+      } else {
+        // All rounds completed
+        await chrome.storage.local.set({ isRunning: false });
+        broadcastMessage({ action: 'processComplete' });
+        await closeCurrentTab();
+      }
+    } else {
+      throw new Error(response?.error || 'Unknown error during round execution');
+    }
+  } catch (error) {
+    console.error('Round execution error:', error);
+    await chrome.storage.local.set({ isRunning: false });
+    broadcastMessage({
+      action: 'processError',
+      error: error.message
+    });
+  }
+}
+
+/**
+ * Stop the automation process
+ */
+async function stopProcess() {
+  console.log('Stopping process');
+
+  await chrome.alarms.clearAll();
+  await chrome.storage.local.set({ isRunning: false });
+  await closeCurrentTab();
+}
+
+// ============ Event Listeners ============
+
+// Listen for messages from popup
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  switch (message.action) {
+    case 'startProcess':
+      startProcess(message.instaUrl, message.repeatCount);
+      break;
+    case 'stopProcess':
+      stopProcess();
+      break;
+  }
+});
+
+// Listen for alarms
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === 'nextRound') {
+    const state = await chrome.storage.local.get([
+      'isRunning',
+      'instaUrl',
+      'currentRound',
+      'totalRounds'
+    ]);
+
+    if (state.isRunning && state.currentRound < state.totalRounds) {
+      executeRound(state.instaUrl, state.currentRound + 1, state.totalRounds);
+    }
+  }
+});
+
+// Handle tab close
+chrome.tabs.onRemoved.addListener(async (tabId) => {
+  if (tabId === currentTabId) {
+    currentTabId = null;
+    // Don't stop process, next round will create new tab
+  }
+});

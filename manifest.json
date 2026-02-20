@@ -1,38 +1,44 @@
 {
   "manifest_version": 3,
   "name": "Instagram Views Booster",
-  "version": "1.0",
-  "description": "Automate Instagram views using Zefame",
+  "version": "1.0.0",
+  "description": "Automate Instagram views using Zefame - Pro Edition",
+  
   "permissions": [
     "tabs",
     "scripting",
     "alarms",
     "storage"
   ],
+  
   "host_permissions": [
     "https://zefame.com/*"
   ],
+  
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
     }
   },
+  
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "src/background/background.js"
   },
+  
   "content_scripts": [
     {
       "matches": ["https://zefame.com/*"],
-      "js": ["content.js"],
+      "js": ["src/content/content.js"],
       "run_at": "document_idle"
     }
   ],
+  
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
   }
 }
