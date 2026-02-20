@@ -12,150 +12,303 @@
     }
 
     body {
-      width: 350px;
+      width: 380px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
+      background: #0a0a0a;
+      padding: 0;
     }
 
-    .container {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    .header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #0a0a0a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .logo-wrapper {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #405DE6 0%, #833AB4 50%, #E1306C 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: #0a0a0a;
+      border-radius: 10px;
+    }
+
+    .logo-icon {
+      position: relative;
+      z-index: 1;
+      width: 22px;
+      height: 22px;
+    }
+
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .header-text {
+      flex: 1;
     }
 
     h1 {
-      text-align: center;
-      color: #e1306c;
-      font-size: 18px;
-      margin-bottom: 15px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    .header-subtitle {
+      color: #666;
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    .header-badge {
+      background: linear-gradient(135deg, #833AB4 0%, #E1306C 100%);
+      color: white;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .container {
+      background: #0a0a0a;
+      padding: 20px;
     }
 
     .warning-box {
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 15px;
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-bottom: 20px;
       font-size: 12px;
-      color: #856404;
+      color: #ffc107;
+      backdrop-filter: blur(10px);
     }
 
-    .warning-box strong {
-      color: #d63384;
+    .warning-box .warning-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffca2c;
+    }
+
+    .warning-box ul {
+      list-style: none;
+      padding-left: 5px;
+    }
+
+    .warning-box li {
+      padding: 3px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 193, 7, 0.85);
+    }
+
+    .warning-box li::before {
+      content: '›';
+      color: #ffc107;
+      font-weight: bold;
     }
 
     .input-group {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #333;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #e0e0e0;
       font-size: 13px;
+      letter-spacing: 0.3px;
     }
 
     input[type="text"],
     input[type="number"] {
       width: 100%;
-      padding: 10px 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border: 2px solid #2d2d2d;
+      border-radius: 12px;
       font-size: 13px;
-      transition: border-color 0.3s;
+      background: #0d0d0d;
+      color: #ffffff;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]::placeholder {
+      color: #555;
     }
 
     input[type="text"]:focus,
     input[type="number"]:focus {
       outline: none;
-      border-color: #e1306c;
+      border-color: #C13584;
+      box-shadow: 0 0 0 3px rgba(193, 53, 132, 0.2);
+      background: #111;
+    }
+
+    input[type="text"]:disabled,
+    input[type="number"]:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .gap-info {
       font-size: 11px;
       color: #666;
-      margin-top: 5px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #e1306c 0%, #c13584 100%);
+      background: linear-gradient(135deg, #405DE6 0%, #833AB4 50%, #E1306C 100%);
       color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(225, 48, 108, 0.4);
+      box-shadow: 0 8px 25px rgba(193, 53, 132, 0.4);
     }
 
     .btn-primary:disabled {
-      background: #ccc;
+      background: #2d2d2d;
+      color: #666;
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
     }
 
+    .btn-primary:disabled::before {
+      display: none;
+    }
+
     .btn-stop {
-      background: #dc3545;
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
       color: white;
       margin-top: 10px;
       display: none;
     }
 
     .btn-stop:hover {
-      background: #c82333;
+      background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
     }
 
     .status {
       margin-top: 15px;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 12px;
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-size: 13px;
       text-align: center;
       display: none;
+      font-weight: 500;
     }
 
     .status.running {
       display: block;
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
+      background: rgba(40, 167, 69, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(40, 167, 69, 0.3);
     }
 
     .status.error {
       display: block;
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
+      background: rgba(220, 53, 69, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(220, 53, 69, 0.3);
     }
 
     .progress-info {
-      margin-top: 10px;
+      margin-top: 12px;
       font-size: 12px;
-      color: #666;
+      color: #888;
       text-align: center;
     }
 
     .timer-box {
-      margin-top: 15px;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 10px;
+      margin-top: 18px;
+      padding: 20px;
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+      border-radius: 16px;
       text-align: center;
       display: none;
+      border: 1px solid #333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timer-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #405DE6, #833AB4, #E1306C, #F77737);
+      animation: gradient-move 2s linear infinite;
+      background-size: 200% 100%;
+    }
+
+    @keyframes gradient-move {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
     }
 
     .timer-box.visible {
@@ -163,43 +316,113 @@
     }
 
     .timer-label {
-      color: rgba(255,255,255,0.8);
+      color: #888;
       font-size: 11px;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .timer-value {
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      font-family: 'Courier New', monospace;
+      color: #ffffff;
+      font-size: 36px;
+      font-weight: 700;
+      font-family: 'SF Mono', 'Courier New', monospace;
+      text-shadow: 0 0 20px rgba(193, 53, 132, 0.5);
+    }
+
+    .footer {
+      background: #111;
+      padding: 12px;
+      text-align: center;
+      border-top: 1px solid #222;
+    }
+
+    .footer-text {
+      color: #444;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #444;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📸 Instagram Views Booster</h1>
+  <div class="header">
+    <div class="logo-wrapper">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#instaGrad)" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" stroke="url(#instaGrad)" stroke-width="2"/>
+          <circle cx="18" cy="6" r="1.5" fill="url(#instaGrad)"/>
+          <defs>
+            <linearGradient id="instaGrad" x1="2" y1="22" x2="22" y2="2">
+              <stop stop-color="#F77737"/>
+              <stop offset="0.5" stop-color="#E1306C"/>
+              <stop offset="1" stop-color="#833AB4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+    <div class="header-text">
+      <h1>Views Booster</h1>
+      <div class="header-subtitle">Automated Instagram Growth</div>
+    </div>
+    <div class="header-badge">Pro</div>
+  </div>
 
+  <div class="container">
     <div class="warning-box">
-      <strong>⚠️ Important Note:</strong><br>
-      • Your Instagram Account must be <strong>PUBLIC</strong><br>
-      • Reel/Post URL must be correct<br>
-      • Do not close the tab during process
+      <div class="warning-title">
+        <span>⚠️</span>
+        <span>Important Notes</span>
+      </div>
+      <ul>
+        <li>Your Instagram Account must be <strong>PUBLIC</strong></li>
+        <li>Reel/Post URL must be correct</li>
+        <li>Do not close the tab during process</li>
+      </ul>
     </div>
 
     <div class="input-group">
-      <label for="instaUrl">Instagram Reel/Post URL:</label>
+      <label for="instaUrl">Instagram Reel/Post URL</label>
       <input type="text" id="instaUrl" placeholder="https://www.instagram.com/reel/..." />
     </div>
 
     <div class="input-group">
       <label for="repeatCount">How many times to repeat?</label>
       <input type="number" id="repeatCount" min="1" max="50" value="5" />
-      <div class="gap-info">💡 There will be a 5-10 minute gap between each repeat</div>
+      <div class="gap-info">
+        <span>💡</span>
+        <span>5-10 minute gap between each repeat</span>
+      </div>
     </div>
 
-    <button class="btn btn-primary" id="startBtn">🚀 Start Process</button>
-    <button class="btn btn-stop" id="stopBtn">⏹️ Stop Process</button>
+    <button class="btn btn-primary" id="startBtn">
+      <span>🚀</span>
+      <span>Start Process</span>
+    </button>
+    <button class="btn btn-stop" id="stopBtn">
+      <span>⏹️</span>
+      <span>Stop Process</span>
+    </button>
 
     <div class="status" id="status"></div>
     <div class="progress-info" id="progressInfo"></div>
@@ -208,6 +431,10 @@
       <div class="timer-label">Next round starts in</div>
       <div class="timer-value" id="timerValue">00:00</div>
     </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">Made with ❤️ for Instagram Growth</div>
   </div>
 
   <script src="popup.js"></script>
