@@ -41,7 +41,7 @@ NewExt/
 
 - 🎨 **Dark Theme UI** - Modern, sleek design
 - ⏱️ **Live Countdown Timer** - Shows time until next round
-- 🔄 **Automated Rounds** - 5-6 minute random gaps
+- 🔄 **Automated Rounds** - 6-7 minute random gaps
 - 💾 **State Persistence** - Survives popup close
 - ⚡ **Pro Architecture** - Clean, modular code
 

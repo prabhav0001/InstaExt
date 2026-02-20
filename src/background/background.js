@@ -7,8 +7,8 @@
 const CONFIG = {
   ZEFAME_URL: 'https://zefame.com/en/free-instagram-views',
   DELAY: {
-    MIN_MINUTES: 5,
-    MAX_MINUTES: 6,
+    MIN_MINUTES: 6,
+    MAX_MINUTES: 7,
     PAGE_LOAD_WAIT: 3000
   }
 };

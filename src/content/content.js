@@ -11,10 +11,11 @@
     MAX_WAIT_TIME: 15000,
     RETRY_INTERVAL: 500,
     BUTTON_CLICK_DELAY: 1000,
-    SUCCESS_WAIT: 3000,
+    ERROR_CHECK_DELAY: 2000,  // Check for error 2 sec after click
     // Direct selectors for zefame.com
     INPUT_SELECTOR: '#instagram-link',
-    BUTTON_SELECTOR: '#submit-btn'
+    BUTTON_SELECTOR: '#submit-btn',
+    ERROR_SELECTOR: '#error-message'
   };
 
   // ============ Helper Functions ============
@@ -106,10 +107,18 @@
         // Click the button
         submitButton.click();
 
-        // Wait for process to complete
+        // Check for error after 2 seconds
         setTimeout(() => {
-          resolve({ success: true });
-        }, CONFIG.SUCCESS_WAIT);
+          const errorElement = document.querySelector(CONFIG.ERROR_SELECTOR);
+
+          if (errorElement && errorElement.textContent.includes('Please wait')) {
+            // Cooldown error found
+            reject(new Error(errorElement.textContent.trim()));
+          } else {
+            // No error = success
+            resolve({ success: true });
+          }
+        }, CONFIG.ERROR_CHECK_DELAY);
       }
 
       attemptFill();
