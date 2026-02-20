@@ -85,7 +85,6 @@ function updateUI(isRunning, currentRound = 0, totalRounds = 0) {
     elements.instaUrlInput.disabled = false;
     elements.repeatCountInput.disabled = false;
     elements.statusDiv.className = 'status';
-    elements.statusDiv.style.display = 'none';
     elements.progressInfo.textContent = '';
     stopCountdown();
 

@@ -104,8 +104,6 @@ async function closeCurrentTab() {
  * Start the automation process
  */
 async function startProcess(instaUrl, repeatCount) {
-  console.log('Starting process:', instaUrl, repeatCount);
-
   // Clear any existing alarms
   await chrome.alarms.clearAll();
 
@@ -117,8 +115,6 @@ async function startProcess(instaUrl, repeatCount) {
  * Execute a single round
  */
 async function executeRound(instaUrl, roundNumber, totalRounds) {
-  console.log(`Executing round ${roundNumber}/${totalRounds}`);
-
   try {
     // Update storage
     await chrome.storage.local.set({
@@ -168,7 +164,6 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
         });
 
         chrome.alarms.create('nextRound', { delayInMinutes: delayMinutes });
-        console.log(`Next round in ${delayMinutes} minutes`);
       } else {
         // All rounds completed
         await chrome.storage.local.set({ isRunning: false });
@@ -179,7 +174,6 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
       throw new Error(response?.error || 'Unknown error during round execution');
     }
   } catch (error) {
-    console.error('Round execution error:', error);
     await chrome.storage.local.set({ isRunning: false });
     broadcastMessage({
       action: 'processError',
@@ -192,8 +186,6 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
  * Stop the automation process
  */
 async function stopProcess() {
-  console.log('Stopping process');
-
   await chrome.alarms.clearAll();
   await chrome.storage.local.set({ isRunning: false });
   await closeCurrentTab();
