@@ -5,7 +5,7 @@
 
 // ============ Configuration ============
 const CONFIG = {
-  ZEFAME_URL: 'https://zefame.com/en/free-instagram-views',
+  ZEFAME_URL: 'https://zefame.com/uk/free-instagram-views',
   DELAY: {
     MIN_MINUTES: 6,
     MAX_MINUTES: 7,
