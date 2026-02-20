@@ -82,8 +82,8 @@ async function executeRound(instaUrl, roundNumber, totalRounds) {
       });
 
       if (roundNumber < totalRounds) {
-        // Schedule next round with random delay (5-10 minutes)
-        const delayMinutes = Math.floor(Math.random() * 6) + 5; // 5-10 minutes
+        // Schedule next round with random delay (5-6 minutes)
+        const delayMinutes = Math.floor(Math.random() * 2) + 5; // 5-6 minutes
         const nextRunTime = Date.now() + (delayMinutes * 60 * 1000);
 
         // Save next run time to storage
