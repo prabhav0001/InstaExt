@@ -167,7 +167,8 @@ async function handleStart() {
     isRunning: true,
     instaUrl: instaUrl,
     currentRound: 0,
-    totalRounds: repeatCount
+    totalRounds: repeatCount,
+    nextRunTime: null  // Clear old timer
   });
 
   // Send message to background
@@ -242,8 +243,8 @@ async function init() {
     elements.repeatCountInput.value = savedState.totalRounds || 5;
     updateUI(true, savedState.currentRound, savedState.totalRounds);
 
-    // Start countdown if there's a next run time
-    if (savedState.nextRunTime && savedState.currentRound < savedState.totalRounds) {
+    // Start countdown if there's a next run time and not on first round
+    if (savedState.nextRunTime && savedState.currentRound > 0 && savedState.currentRound < savedState.totalRounds) {
       startCountdown(savedState.nextRunTime);
     }
   }
