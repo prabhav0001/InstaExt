@@ -62,7 +62,7 @@ function broadcastMessage(message) {
 // ============ Tab Management ============
 
 /**
- * Open or reuse tab for Zefame
+ * Open or reuse tab for Zefame (in background - not active)
  */
 async function openZefameTab() {
   if (currentTabId) {
@@ -70,7 +70,7 @@ async function openZefameTab() {
       await chrome.tabs.get(currentTabId);
       await chrome.tabs.update(currentTabId, {
         url: CONFIG.ZEFAME_URL,
-        active: true
+        active: false  // Keep in background
       });
       return currentTabId;
     } catch {
@@ -80,7 +80,7 @@ async function openZefameTab() {
 
   const tab = await chrome.tabs.create({
     url: CONFIG.ZEFAME_URL,
-    active: true
+    active: false  // Open in background
   });
   currentTabId = tab.id;
   return currentTabId;
