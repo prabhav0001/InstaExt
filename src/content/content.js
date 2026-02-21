@@ -29,7 +29,7 @@
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: #0a0a0a;
+        background: rgba(10, 10, 10, 0.5);
         z-index: 999999;
         font-family: 'Courier New', 'Consolas', monospace;
         overflow: hidden;
