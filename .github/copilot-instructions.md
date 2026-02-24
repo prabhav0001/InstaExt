@@ -30,7 +30,7 @@ Content script listeners must `return true` to keep the message channel open for
 
 ### Configuration Constants
 Each file defines its own `CONFIG` object at the top. Key values:
-- `background.js`: `DELAY.FIXED_MINUTES: 7` (gap between rounds), `PAGE_LOAD_WAIT: 2000`
+- `background.js`: `DELAY.FIXED_MINUTES: 5` (gap between rounds), `PAGE_LOAD_WAIT: 2000`
 - `content.js`: `MAX_WAIT_TIME: 15000`, `RETRY_INTERVAL: 500`, DOM selectors for zefame.com
 - `popup.js`: `INSTAGRAM_URL_PATTERN` regex, `MIN_REPEAT: 1`, `MAX_REPEAT: 50`
 
