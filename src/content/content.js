@@ -399,10 +399,17 @@
     RETRY_INTERVAL: 500,
     BUTTON_CLICK_DELAY: 1000,
     ERROR_CHECK_DELAY: 2000,  // Check for error 2 sec after click
+    TIMER_POLL_INTERVAL: 500, // Poll interval for timer detection
+    TIMER_WAIT_TIME: 30000,   // Max 30s to wait for timer to appear
+    RESULT_INITIAL_DELAY: 55000, // Wait ~55s before polling for result
+    RESULT_POLL_INTERVAL: 2000,  // Check every 2s for success/error
+    RESULT_WAIT_TIME: 90000,     // Max 90s total to wait for result
     // Direct selectors for zefame.com
     INPUT_SELECTOR: '#instagram-link',
     BUTTON_SELECTOR: '#submit-btn',
-    ERROR_SELECTOR: '#error-message'
+    ERROR_SELECTOR: '#error-message',
+    SUCCESS_SELECTOR: 'h2.thanks-page-header',
+    TIMER_SELECTOR: '#timeTimer'
   };
 
   // ============ Helper Functions ============
@@ -452,6 +459,46 @@
   // ============ Main Functions ============
 
   /**
+   * Wait for success or error result after timer starts
+   * Waits ~55s initially (result appears around 1 min), then polls every 2s
+   */
+  function waitForResult(resolve, reject) {
+    const resultStartTime = Date.now();
+
+    // Wait ~55s before starting to poll (result shows up around 1 min)
+    setTimeout(() => {
+      function pollResult() {
+        // Check for success: <span id="success-message">...</span>
+        const successEl = document.querySelector(CONFIG.SUCCESS_SELECTOR);
+        if (successEl && successEl.textContent.trim().length > 0) {
+          resolve({ success: true, message: successEl.textContent.trim() });
+          return;
+        }
+
+        // Check for error: <span id="error-message">...</span>
+        const errorEl = document.querySelector(CONFIG.ERROR_SELECTOR);
+        if (errorEl && errorEl.textContent.trim().length > 0) {
+          const errorText = errorEl.textContent.trim();
+          // Ignore "Please wait" errors — those are handled earlier
+          if (!errorText.includes('Please wait')) {
+            reject(new Error('Zefame error: ' + errorText));
+            return;
+          }
+        }
+
+        // Keep polling until max wait time
+        if (Date.now() - resultStartTime < CONFIG.RESULT_WAIT_TIME) {
+          setTimeout(pollResult, CONFIG.RESULT_POLL_INTERVAL);
+        } else {
+          // Timed out — no success or error appeared, treat as failure
+          reject(new Error('Timed out waiting for zefame result'));
+        }
+      }
+      pollResult();
+    }, CONFIG.RESULT_INITIAL_DELAY);
+  }
+
+  /**
    * Fill form and submit
    */
   async function fillAndSubmit(instaUrl) {
@@ -494,17 +541,37 @@
         // Click the button
         submitButton.click();
 
-        // Check for error after 2 seconds
+        // Check for error after 2 seconds, then poll for timer
         setTimeout(() => {
           const errorElement = document.querySelector(CONFIG.ERROR_SELECTOR);
 
           if (errorElement && errorElement.textContent.includes('Please wait')) {
             // Cooldown error found
             reject(new Error(errorElement.textContent.trim()));
-          } else {
-            // No error = success
-            resolve({ success: true });
+            return;
           }
+
+          // Poll for #timeTimer to show MM:SS (confirms zefame started processing)
+          const timerStartTime = Date.now();
+          function waitForTimer() {
+            const timerEl = document.querySelector(CONFIG.TIMER_SELECTOR);
+            if (timerEl) {
+              const text = timerEl.textContent.trim();
+              // Match MM:SS or M:SS format (e.g. "06:45", "6:30")
+              if (/^\d{1,2}:\d{2}$/.test(text)) {
+                // Timer started — now wait ~55s then poll for success/error result
+                waitForResult(resolve, reject);
+                return;
+              }
+            }
+
+            if (Date.now() - timerStartTime < CONFIG.TIMER_WAIT_TIME) {
+              setTimeout(waitForTimer, CONFIG.TIMER_POLL_INTERVAL);
+            } else {
+              reject(new Error('Zefame timer did not start — page may not have processed the request'));
+            }
+          }
+          waitForTimer();
         }, CONFIG.ERROR_CHECK_DELAY);
       }
 
